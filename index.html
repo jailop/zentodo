@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Zen ToDo</title>
+        <link rel="stylesheet" href="style.css">
+        <script src="app.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div id="control">
+                <img id="btn_new" src="assets/add.png">
+                <img id="btn_chd" src="assets/subtask.png">
+                <img id="btn_done" src="assets/done.png">
+                <img id="btn_del" src="assets/del.png">
+                <img id="btn_up" src="assets/up.png">
+                <img id="btn_down" src="assets/down.png">
+                <img id="btn_coll" src="assets/collapse.png">
+                <img id="btn_setup" src="assets/setup.png">
+            </div>
+            <div id="main">
+                <ul id="todo_list"></ul>
+            </div>
+            <div id="setup">
+                <div>
+                    <label>Key</label>
+                    <input id="key" type="text">
+                    <button id="btn_key">Set</button>
+                </div>
+                <div>
+                    <button id="btn_get">Get a new key</button>
+                </div>
+                <div><textarea id="json"></textarea></div>
+                <div><button id="btn_json">Replace</button></div>
+            </div>
+        </div>
+    </body>
+</html>
