@@ -1,2 +1,2 @@
 all:
-	htmlark -o todo.html index.html
+	htmlark -o static/todo.html static/index.html

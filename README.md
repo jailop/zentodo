@@ -6,7 +6,7 @@ Just view the HTML in a moder web browser. Data is saved in your local machine.
 
 A demo is running in:
 
-<http://falible.com/static/todo.html>
+<http://falible.com:20800/todo.html>
 
 Keyboard shortcuts:
 
