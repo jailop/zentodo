@@ -94,6 +94,14 @@ function task_save() {
         var todo = todo_append(pnt); 
         localStorage.setItem('todo', JSON.stringify(todo));
     }
+    var key = $('key').value
+    if (key) {
+        localStorage.setItem('key', key)
+        var xhr = new XMLHttpRequest();
+        xhr.open("post", "localshot:8080/keys/" + key, true);
+        xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+        xhr.send(JSON.stringify(todo))
+    }
 }
 
 function task_copy() {
@@ -129,6 +137,8 @@ function task_load() {
     pnt.innerHTML = '';
     todo = JSON.parse(localStorage.getItem('todo'));
     todo_load(pnt, todo); 
+    var key = localStorage.getItem('key')
+    $('key').value = key
 }
 
 function task_delete() {
