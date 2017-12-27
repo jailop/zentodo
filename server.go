@@ -61,10 +61,10 @@ func keyHandler(w http.ResponseWriter, r *http.Request) {
             fmt.Fprintf(w, "error:InvalidContent")
             return
         }
-        content := make([]byte, r.ContentLength)
-        r.Body.Read(content)
+        content, _ := ioutil.ReadAll(r.Body)
         ioutil.WriteFile(filename, content, 0644)
         fmt.Fprintf(w, "ok")
+        fmt.Println(string(content))
     }
 }
 
