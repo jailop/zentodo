@@ -1,5 +1,6 @@
 var pos = null;
 var pnt = null;
+var chg = false;
 
 function $(el) {
     return document.getElementById(el);
@@ -12,6 +13,7 @@ function span(el) {
 function task_done() {
     var check = pos.childNodes[0];
     check.click();
+    chg = true;   
 }
 
 function fill_li(state=0, desc='') {
@@ -23,6 +25,7 @@ function fill_li(state=0, desc='') {
             desc.style.textDecorationLine = 'line-through';
         else
             desc.style.textDecorationLine = 'none';
+        chg = true;   
     }
     var input = pos.appendChild(document.createElement('span'));
     input.setAttribute('contentEditable', true);
@@ -31,6 +34,9 @@ function fill_li(state=0, desc='') {
     input.onfocus = function() {
         pos = this.parentNode;
     }
+    input.oninput = function() {
+        chg = true
+    }
     if (state == 1) {
         check.checked = true;
         input.style.textDecorationLine = 'line-through';
@@ -38,14 +44,15 @@ function fill_li(state=0, desc='') {
 }
 
 function task_insert(state=0, desc='') {
-        var li = document.createElement('li');
-        if (pos != null)
-            pos = pos.parentNode.insertBefore(li, pos.nextSibling);
-        else {
-            var ul = $('todo_list');
-            pos = ul.appendChild(li);
-        }
-        fill_li(state, desc);
+    var li = document.createElement('li');
+    if (pos != null)
+        pos = pos.parentNode.insertBefore(li, pos.nextSibling);
+    else {
+        var ul = $('todo_list');
+        pos = ul.appendChild(li);
+    }
+    fill_li(state, desc);
+    chg = true;   
 }
 
 function task_children(state=0, desc='') {
@@ -55,6 +62,7 @@ function task_children(state=0, desc='') {
         var li = document.createElement('li');
         pos = ul.appendChild(li);
         fill_li(state, desc);
+        chg = true;   
     }
 }
 
@@ -89,6 +97,7 @@ function todo_append(pnt) {
 }
 
 function task_save() {
+    if (!chg) return;
     var pnt = $('todo_list');
     if (pnt != null) {
         var todo = todo_append(pnt); 
@@ -101,6 +110,7 @@ function task_save() {
         xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
         xhr.send(JSON.stringify(todo))
     }
+    chg = false;
 }
 
 function key_get()  {
@@ -126,7 +136,6 @@ function key_set() {
 }
 
 function task_copy() {
-    console.log('task_copy');
     var pnt = $('todo_list');
     if (pnt != null) {
         var todo = todo_append(pnt); 
@@ -165,7 +174,6 @@ function task_load() {
                     pnt.innerHTML = '';
                     todo = JSON.parse(xhr.responseText);
                     todo_load(pnt, todo);
-                    console.log(todo);
                 }
             }
         }
@@ -200,6 +208,7 @@ function task_delete() {
     if (pnt != $('todo_list'))
         pnt = pos.parentNode;
     span(pos).focus();
+    chg = true;   
 }
 
 function task_move_up() {
@@ -209,6 +218,7 @@ function task_move_up() {
         pnt.insertBefore(pos, prv);
     }
     span(pos).focus();
+    chg = true;   
 }
 
 function task_move_down() {
@@ -217,9 +227,11 @@ function task_move_down() {
     if (nxt)
         pnt.insertBefore(nxt, pos);
     span(pos).focus();
+    chg = true;   
 }
 
 function task_collapse() {
+    if (pos == null) return;
     var uls = pos.getElementsByTagName('ul');
     if (uls && uls[0]) {
         if (uls[0].style.display != 'none')
@@ -230,8 +242,6 @@ function task_collapse() {
 }
 
 function key_press(ev) {
-    console.log(ev.ctrlKey);
-    console.log(ev.keyCode);
     if (ev.ctrlKey && ev.keyCode == 40)
         task_move_down();
     if (ev.ctrlKey && ev.keyCode == 38)
@@ -292,7 +302,6 @@ function task_setup() {
             pos = null;
             pnt = $('todo_list');
             pnt.innerHTML = '';
-            console.log(todo_str);
             todo_load(pnt, JSON.parse(todo_str)); 
         }
     }
