@@ -329,10 +329,10 @@ window.onload = function() {
     window.onkeypress = key_press;
     task_load();
     setInterval(task_save, 10000);
-    window.onfocus = function () {
+    window.onpageshow = function () {
         task_load();
     }
-    window.onblur = function () {
+    window.onpagehide = function () {
         task_save();
     }
 }
