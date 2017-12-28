@@ -329,10 +329,12 @@ window.onload = function() {
     window.onkeypress = key_press;
     task_load();
     setInterval(task_save, 10000);
+    /*
     window.onpageshow = function () {
         task_load();
     }
     window.onpagehide = function () {
         task_save();
     }
+    */
 }
