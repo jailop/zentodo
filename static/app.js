@@ -239,6 +239,7 @@ function task_collapse() {
         else
             uls[0].style.display = 'block';
     }
+    chg = true;   
 }
 
 function key_press(ev) {
