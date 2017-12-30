@@ -192,8 +192,10 @@ function task_load() {
 function task_delete() {
     if (!pos)
         return;
-    if (!confirm('Are you sure to delete this item?'))
-        return;
+    if (span(pos).innerText.length > 1) {
+        if (!confirm('Are you sure to delete this item?'))
+            return;
+    }
     var prv = pos.previousSibling;
     pnt = pos.parentNode;
     pnt.removeChild(pos);
@@ -243,14 +245,17 @@ function task_collapse() {
 }
 
 function key_press(ev) {
+    console.log(ev.keyCode);
     if (ev.ctrlKey && ev.keyCode == 40)
         task_move_down();
     if (ev.ctrlKey && ev.keyCode == 38)
         task_move_up();
     if (ev.ctrlKey && ev.keyCode == 0)
         task_collapse();
-    if (ev.ctrlKey && ev.keyCode == 13)
+    if (ev.keyCode == 13)
         task_insert();
+    if (ev.keyCode == 8 && span(pos).innerText <= 1)
+        task_delete();
     if (ev.ctrlKey && ev.keyCode == 46)
         task_delete();
     if (ev.ctrlKey && ev.keyCode == 45)
